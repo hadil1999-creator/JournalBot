@@ -20,10 +20,26 @@ def journalentry():
     form = JournalForm()
     if form.validate_on_submit():
         text = form.text.data
-        sentiment = lang_processor.sample_analyze_sentiment(text).document_sentiment.score
+        sentiment_analysis = lang_processor.sample_analyze_sentiment(text).document_sentiment
+        score = sentiment_analysis.score
+        magnitude = sentiment_analysis.magnitude
+        
+        # Use both score and magnitude to determine sentiment
+        if magnitude >= 0.5:  # If the magnitude is high, it's a strong sentiment
+            if score > 0:
+                sentiment = 'positive'  # Positive sentiment
+            elif score < 0:
+                sentiment = 'negative'  # Negative sentiment
+            else:
+                sentiment = 'neutral'  # Neutral sentiment
+        else:
+            sentiment = 'neutral'  # Low magnitude means the sentiment is weak or neutral
+
+        # Create a new post with sentiment information
         post = Post(sentiment=sentiment, user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
+
         return redirect(url_for('analytics'))
     return render_template('journal-entry.html', title='Entry', form=form)
 
