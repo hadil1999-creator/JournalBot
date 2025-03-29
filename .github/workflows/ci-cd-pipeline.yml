@@ -23,13 +23,14 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
 
 
-    - name: Run Unit Tests
+    - name: Run Tests
       run: |
-        echo "Running unit tests..."
+        echo "Running tests..."
         pytest C:\Users\21629\Desktop\JournalBot\journalbot\lib\python3.7\site-packages\sqlalchemy\testing
 
     - name: Run Flake8
@@ -42,3 +43,10 @@ jobs:
         echo "Verifying test results..."
         # Optionally, add verification steps, for example:
         # curl -f http://localhost:8000/health || exit 1
+
+    - name: Build Docker image
+      run: |
+        docker build -t my-app .
+        docker tag my-app myrepo/my-app:latest
+        docker push myrepo/my-app:latest
+        
