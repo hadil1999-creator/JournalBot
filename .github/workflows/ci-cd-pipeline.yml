@@ -1,0 +1,44 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  setup_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+
+    - name: Run Unit Tests
+      run: |
+        echo "Running unit tests..."
+        pytest C:\Users\21629\Desktop\JournalBot\journalbot\lib\python3.7\site-packages\sqlalchemy\testing
+
+    - name: Run Flake8
+      run: |
+        echo "Running Flake8..."
+        flake8 .
+
+    - name: Verify Test Results
+      run: |
+        echo "Verifying test results..."
+        # Optionally, add verification steps, for example:
+        # curl -f http://localhost:8000/health || exit 1
