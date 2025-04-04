@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mon-app-deployment  # Name of the deployment in Kubernetes
+  
+spec:
+  replicas: 2  # Number of replicas (pods) you want for high availability
+  selector:
+    matchLabels:
+      app: mon-app  # Labels used to identify which pods belong to this deployment
+  template:
+    metadata:
+      labels:
+        app: mon-app  # The same label to associate this pod with the deployment
+    spec:
+      containers:
+      - name: mon-app  # Name of the container
+        image: hadil292/mon_app:latest  # The image to use for this container (local image, e.g., built previously)
+        ports:
+        - containerPort: 5000  # The port the container will listen on (adjust this if needed)

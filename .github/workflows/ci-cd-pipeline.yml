@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - dev
   pull_request:
     branches:
-      - main
+      - dev
 
 jobs:
   setup_and_test:
@@ -31,7 +31,12 @@ jobs:
     - name: Run Tests
       run: |
         echo "Running tests..."
-        pytest C:\Users\21629\Desktop\JournalBot\journalbot\lib\python3.7\site-packages\sqlalchemy\testing
+        pytest journalbot\lib\python3.7\site-packages\sqlalchemy\testing
+
+    - name: Run UnittTests
+      run: |
+        echo "Running Unittests..."
+        pytest test_app.py
 
     - name: Run Flake8
       run: |
@@ -46,7 +51,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t my-app .
-        docker tag my-app myrepo/my-app:latest
-        docker push myrepo/my-app:latest
+        docker build -t journalbot .
+        docker tag journalbot myrepo/my-app:latest
+        docker push journalbot/my-app:latest
         

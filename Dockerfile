@@ -13,5 +13,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Exposer le port sur lequel l'application tourne (modifie si nécessaire)
 EXPOSE 5000  
 
+RUN pip install opentelemetry-api opentelemetry-sdk opentelemetry-instrumentation
+
+
 # Définir la commande pour lancer l'application (modifie si nécessaire)
 CMD ["python", "webapp/run.py"]  
+
