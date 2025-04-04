@@ -1,0 +1,4 @@
+# Ignore specific directories and files
+fluent-bit-3.2.10-winarm64/
+prometheus-3.2.1.windows-amd64/
+venv/
